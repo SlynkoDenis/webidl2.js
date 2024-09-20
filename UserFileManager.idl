@@ -1,0 +1,327 @@
+/**
+ * Album subtype
+ *
+ * @enum { number } AlbumSubType
+ * @syscap SystemCapability.FileManagement.UserFileManager.Core
+ * @systemapi
+ * @since 10
+ */
+enum AlbumSubType {
+  /**
+   * Generic user-created albums.
+   *
+   * @syscap SystemCapability.FileManagement.UserFileManager.Core
+   * @systemapi
+   * @since 10
+   */
+  USER_GENERIC = 1;
+  /**
+   * Favorite album, which assets are marked as favorite.
+   *
+   * @syscap SystemCapability.FileManagement.UserFileManager.Core
+   * @systemapi
+   * @since 10
+   */
+  FAVORITE = 1025;
+  /**
+   * Video album, which contains all video assets.
+   *
+   * @syscap SystemCapability.FileManagement.UserFileManager.Core
+   * @systemapi
+   * @since 10
+   */
+  VIDEO;
+  /**
+   * Hidden album, which assets are marked as hidden.
+   *
+   * @syscap SystemCapability.FileManagement.UserFileManager.Core
+   * @systemapi
+   * @since 10
+   */
+  HIDDEN;
+  /**
+   * Trash album, which assets are deleted.
+   *
+   * @syscap SystemCapability.FileManagement.UserFileManager.Core
+   * @systemapi
+   * @since 10
+   */
+  TRASH;
+  /**
+   * Screenshot album
+   *
+   * @syscap SystemCapability.FileManagement.UserFileManager.Core
+   * @systemapi
+   * @since 10
+   */
+  SCREENSHOT;
+  /**
+   * Camera album
+   *
+   * @syscap SystemCapability.FileManagement.UserFileManager.Core
+   * @systemapi
+   * @since 10
+   */
+  CAMERA;
+  /**
+   * Any album
+   *
+   * @syscap SystemCapability.FileManagement.UserFileManager.Core
+   * @systemapi
+   * @since 10
+   */
+  ANY = 2147483647;
+};
+
+/**
+ * Album type.
+ *
+ * @enum { number } AlbumType
+ * @syscap SystemCapability.FileManagement.UserFileManager.Core
+ * @systemapi
+ * @since 10
+ */
+enum AlbumType {
+  /**
+   * Album created by user.
+   *
+   * @syscap SystemCapability.FileManagement.UserFileManager.Core
+   * @systemapi
+   * @since 10
+   */
+  USER = 0;
+  /**
+   * Album created by system, which metadata cannot be modified by user.
+   *
+   * @syscap SystemCapability.FileManagement.UserFileManager.Core
+   * @systemapi
+   * @since 10
+   */
+  SYSTEM = 1024;
+};
+
+/**
+ * Defines the AbsAlbum.
+ *
+ * @interface AbsAlbum
+ * @syscap SystemCapability.FileManagement.UserFileManager.Core
+ * @systemapi
+ * @since 9
+ */
+interface AbsAlbum {
+  /**
+   * Album type
+   *
+   * @type { AlbumType }
+   * @syscap SystemCapability.FileManagement.UserFileManager.Core
+   * @systemapi
+   * @since 10
+   */
+  readonly AlbumType albumType;
+  /**
+   * Album subtype
+   *
+   * @type { AlbumSubType }
+   * @syscap SystemCapability.FileManagement.UserFileManager.Core
+   * @systemapi
+   * @since 10
+   */
+  readonly AlbumSubType albumSubType;
+  /**
+   * Album name.
+   *
+   * @type { string }
+   * @syscap SystemCapability.FileManagement.UserFileManager.Core
+   * @systemapi
+   * @since 9
+   */
+  string albumName;
+  /**
+   * Album uri.
+   *
+   * @type { string }
+   * @syscap SystemCapability.FileManagement.UserFileManager.Core
+   * @systemapi
+   * @since 9
+   */
+  readonly string albumUri;
+  /**
+   * Date (timestamp) when the album was last modified.
+   *
+   * @type { number }
+   * @syscap SystemCapability.FileManagement.UserFileManager.Core
+   * @systemapi
+   * @since 9
+   */
+  readonly number dateModified;
+  /**
+   * File count for the album
+   *
+   * @type { number }
+   * @syscap SystemCapability.FileManagement.UserFileManager.Core
+   * @systemapi
+   * @since 9
+   */
+  readonly number count;
+  /**
+   * CoverUri for the album
+   *
+   * @type { string }
+   * @syscap SystemCapability.FileManagement.UserFileManager.Core
+   * @systemapi
+   * @since 9
+   */
+  string coverUri;
+  /**
+   * Obtains files in an album. This method uses an asynchronous callback to return the files.
+   *
+   * @permission ohos.permission.READ_IMAGEVIDEO
+   * @param { FetchOptions } options - Retrieval options.
+   * @param { AsyncCallback<FetchResult<FileAsset>> } callback - Callback used to return the files in the format of a FetchResult instance.
+   * @throws { BusinessError } 13900020 - if type options is not FetchOptions
+   * @syscap SystemCapability.FileManagement.UserFileManager.Core
+   * @systemapi
+   * @since 9
+   */
+  undefined getPhotoAssets(options: FetchOptions, callback: AsyncCallback<FetchResult<FileAsset>>);
+  /**
+   * Obtains files in an album. This method uses a promise to return the files.
+   *
+   * @permission ohos.permission.READ_IMAGEVIDEO
+   * @param { FetchOptions } options - Retrieval options.
+   * @returns { Promise<FetchResult<FileAsset>> } A Promise instance used to return the files in the format of a FetchResult instance.
+   * @throws { BusinessError } 13900020 - if type options is not FetchOptions
+   * @syscap SystemCapability.FileManagement.UserFileManager.Core
+   * @systemapi
+   * @since 9
+   */
+  Promise<FetchResult<FileAsset>> getPhotoAssets(options: FetchOptions);
+}
+
+
+/**
+ * Defines the album.
+ *
+ * @interface Album
+ * @syscap SystemCapability.FileManagement.UserFileManager.Core
+ * @systemapi
+ * @since 9
+ */
+interface Album: AbsAlbum {
+  /**
+   * Modify the meta data for the album
+   *
+   * @permission ohos.permission.WRITE_IMAGEVIDEO
+   * @param { AsyncCallback<void> } callback - No value will be returned.
+   * @syscap SystemCapability.FileManagement.UserFileManager.Core
+   * @systemapi
+   * @since 9
+   */
+  commitModify(callback: AsyncCallback<void>): void;
+  /**
+   * Modify the meta data for the album
+   *
+   * @permission ohos.permission.WRITE_IMAGEVIDEO
+   * @returns { Promise<void> } Return promise
+   * @syscap SystemCapability.FileManagement.UserFileManager.Core
+   * @systemapi
+   * @since 9
+   */
+  commitModify(): Promise<void>;
+  /**
+   * Add PhotoAssets to the album.
+   *
+   * @permission ohos.permission.WRITE_IMAGEVIDEO
+   * @param { Array<FileAsset> } assets - Assets to add
+   * @param { AsyncCallback<void> } callback - Returns void
+   * @throws { BusinessError } 13900020 - if PhotoAssets is invalid
+   * @syscap SystemCapability.FileManagement.UserFileManager.Core
+   * @systemapi
+   * @since 10
+   */
+  addPhotoAssets(assets: Array<FileAsset>, callback: AsyncCallback<void>): void;
+  /**
+   * Add PhotoAssets to the album.
+   *
+   * @permission ohos.permission.WRITE_IMAGEVIDEO
+   * @param { Array<FileAsset> } assets - Assets to add
+   * @returns { Promise<void> } Returns the promise
+   * @throws { BusinessError } 13900020 - if PhotoAssets is invalid
+   * @syscap SystemCapability.FileManagement.UserFileManager.Core
+   * @systemapi
+   * @since 10
+   */
+  addPhotoAssets(assets: Array<FileAsset>): Promise<void>;
+  /**
+   * Remove PhotoAssets from the album.
+   *
+   * @permission ohos.permission.WRITE_IMAGEVIDEO
+   * @param { Array<FileAsset> } assets - Assets to remove
+   * @param { AsyncCallback<void> } callback - Returns void
+   * @throws { BusinessError } 13900020 - if PhotoAssets is invalid
+   * @syscap SystemCapability.FileManagement.UserFileManager.Core
+   * @systemapi
+   * @since 10
+   */
+  removePhotoAssets(assets: Array<FileAsset>, callback: AsyncCallback<void>): void;
+  /**
+   * Remove PhotoAssets from the album.
+   *
+   * @permission ohos.permission.WRITE_IMAGEVIDEO
+   * @param { Array<FileAsset> } assets - Assets to remove
+   * @returns { Promise<void> } Returns the promise
+   * @throws { BusinessError } 13900020 - if PhotoAssets is invalid
+   * @syscap SystemCapability.FileManagement.UserFileManager.Core
+   * @systemapi
+   * @since 10
+   */
+  removePhotoAssets(assets: Array<FileAsset>): Promise<void>;
+  /**
+   * Recover PhotoAssets from the trash album.
+   *
+   * @permission ohos.permission.WRITE_IMAGEVIDEO
+   * @param { Array<FileAsset> } assets - Assets to recover
+   * @param { AsyncCallback<void> } callback - Returns void
+   * @throws { BusinessError } 13900020 - if PhotoAssets is invalid
+   * @syscap SystemCapability.FileManagement.UserFileManager.Core
+   * @systemapi
+   * @since 10
+   */
+  recoverPhotoAssets(assets: Array<FileAsset>, callback: AsyncCallback<void>): void;
+  /**
+   * Recover PhotoAssets from the trash album.
+   *
+   * @permission ohos.permission.WRITE_IMAGEVIDEO
+   * @param { Array<FileAsset> } assets - Assets to recover
+   * @returns { Promise<void> } Returns the promise
+   * @throws { BusinessError } 13900020 - if PhotoAssets is invalid
+   * @syscap SystemCapability.FileManagement.UserFileManager.Core
+   * @systemapi
+   * @since 10
+   */
+  recoverPhotoAssets(assets: Array<FileAsset>): Promise<void>;
+  /**
+   * Delete PhotoAssets permanently from the trash album.
+   *
+   * @permission ohos.permission.WRITE_IMAGEVIDEO
+   * @param { Array<FileAsset> } assets - Assets to delete
+   * @param { AsyncCallback<void> } callback - Returns void
+   * @throws { BusinessError } 13900020 - if PhotoAssets is invalid
+   * @syscap SystemCapability.FileManagement.UserFileManager.Core
+   * @systemapi
+   * @since 10
+   */
+  deletePhotoAssets(assets: Array<FileAsset>, callback: AsyncCallback<void>): void;
+  /**
+   * Delete PhotoAssets permanently from the trash album.
+   *
+   * @permission ohos.permission.WRITE_IMAGEVIDEO
+   * @param { Array<FileAsset> } assets - Assets to delete
+   * @returns { Promise<void> } Returns the promise
+   * @throws { BusinessError } 13900020 - if PhotoAssets is invalid
+   * @syscap SystemCapability.FileManagement.UserFileManager.Core
+   * @systemapi
+   * @since 10
+   */
+  deletePhotoAssets(assets: Array<FileAsset>): Promise<void>;
+}

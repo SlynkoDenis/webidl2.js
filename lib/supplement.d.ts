@@ -79,6 +79,12 @@ declare module "./productions/enum.js" {
   }
 }
 
+declare module "./productions/integer-enum.js" {
+  interface IntegerEnum {
+    values: IntegerEnumValue[];
+  }
+}
+
 declare module "./productions/field.js" {
   interface Field {
     idlType: Type;
